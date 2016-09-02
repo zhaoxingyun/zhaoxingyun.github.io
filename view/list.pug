@@ -1,8 +1,48 @@
 doctype html
 html(lang="zh_CN")
+	- var relativePath = '..'
 	head
-		- var relativePath = '..'
 		- var title = '文章列表'
 		include ./header.pug
 	body
-		| !{html}
+		- var active = 'Blog'
+		include ./nav.pug
+		main.container
+			.row
+				.col.s12.m10.l8
+					each article in pageHtml
+						.card.hoverable
+							.card-content
+								if article.img
+									.card-image
+										img(src=article.img)
+								else
+								span.card-title #{article.title}
+								p !{article.summary}
+							.card-action.right-align
+								- var articlePath = "../articles/" + article.name
+								a(href=articlePath)
+									i.material-icons(title="在当前窗口打开") open_in_browser
+								a(href=articlePath, target="_blank")
+									i.material-icons(title="在新窗口打开") open_in_new
+					ul.pagination.right-align
+						if pageInfo.prev == null
+							li.disabled
+								i.material-icons chevron_left
+						else
+							li
+								- var prev = pageInfo.prev + '.html'
+								a(href=prev)
+									i.material-icons chevron_left
+						li.active
+							- var now = pageInfo.now + '.html'
+							a(href=now) #{pageInfo.now + 1}
+						if pageInfo.next == null
+							li.disabled
+								i.material-icons chevron_right
+						else
+							li
+								- var next = pageInfo.next + '.html'
+								a(href=next)
+									i.material-icons chevron_right
+		include ./js.pug

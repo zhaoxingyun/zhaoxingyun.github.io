@@ -1,7 +1,11 @@
 doctype html
 html(lang="zh_CN")
+	- var relativePath = '..'
 	head
-		- var relativePath = '..'
 		include ./header.pug
 	body
-		| !{html}
+		- var active = 'Blog'
+		include ./nav.pug
+		main.container
+			| !{html}
+		include ./js.pug
